@@ -171,8 +171,29 @@ h1, h2, h3, h4, h5, h6 { font-family: "season", "Poppins", sans-serif; font-weig
 
 @media (max-width: 1024px) {
   .hero-title { font-size: 44px; line-height: 1.1; text-align: start; }
-  .hero { background-attachment: scroll; }
   .about-text h2 { line-height: 1.1; }
+
+  /* Mobile browsers ignore background-attachment: fixed, so the image goes on a
+     fixed layer instead. clip-path keeps that layer inside the hero section. */
+  .hero { position: relative; background: var(--black); clip-path: inset(0); }
+  .hero::before {
+    content: ""; position: fixed; top: 0; left: 0; z-index: -1;
+    width: 100vw; height: 100vh; height: 100lvh;
+    background: url("/assets/img/hero-bg.jpg") center / cover no-repeat;
+    pointer-events: none;
+  }
+}
+
+/* Portrait phones/tablets: crop to the lone tree. In hero-bg.jpg (1600x1066) the
+   tree is 165px tall, centred at (466, 585). Scale it to 25% of the screen height
+   and centre it on the golden-ratio point (61.8% across, 61.8% down). */
+@media (max-width: 1024px) and (orientation: portrait) {
+  .hero::before {
+    background-size: auto 161.5vh;
+    background-position: calc(61.8vw - 70.6vh) -26.8vh;
+    background-size: auto 161.5lvh;
+    background-position: calc(61.8vw - 70.6lvh) -26.8lvh;
+  }
 }
 
 @media (max-width: 767px) {
